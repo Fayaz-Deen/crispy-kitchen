@@ -40,18 +40,19 @@ export default function Footer() {
             <h3 className="text-white font-bold uppercase tracking-wider mb-6">
               Quick Links
             </h3>
-            <ul className="space-y-3">
-              {['Home', 'Menu', 'About', 'Contact'].map((link) => (
-                <li key={link}>
+            <div className="flex flex-wrap items-center gap-2">
+              {['Home', 'Menu', 'About', 'Contact'].map((link, index) => (
+                <span key={link} className="flex items-center gap-2">
                   <Link
                     href={`#${link.toLowerCase()}`}
                     className="text-gray-400 hover:text-[#F97316] transition-colors"
                   >
                     {link}
                   </Link>
-                </li>
+                  {index < 3 && <span className="text-gray-600">|</span>}
+                </span>
               ))}
-            </ul>
+            </div>
           </div>
 
           {/* Contact */}

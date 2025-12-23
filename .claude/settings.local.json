@@ -23,7 +23,8 @@
       "Bash(npx vercel:*)",
       "Bash(nslookup:*)",
       "Bash(git commit:*)",
-      "Bash(sips:*)"
+      "Bash(sips:*)",
+      "Bash(timeout 5 npm run dev:*)"
     ]
   }
 }
