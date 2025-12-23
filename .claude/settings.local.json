@@ -22,7 +22,8 @@
       "Bash(vercel:*)",
       "Bash(npx vercel:*)",
       "Bash(nslookup:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(sips:*)"
     ]
   }
 }

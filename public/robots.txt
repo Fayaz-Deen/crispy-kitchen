@@ -1,0 +1,6 @@
+# Robots.txt for Crispy Kitchen
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://crispykitchen.in/sitemap.xml
