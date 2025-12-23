@@ -168,17 +168,17 @@ export default function SignatureDishes() {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6"
         >
           {signatureDishes.map((dish, index) => (
             <motion.div
               key={dish.id}
               variants={cardVariants}
               whileHover={{ y: -10, transition: { duration: 0.3 } }}
-              className="signature-card group relative bg-[#2D2D2D] rounded-2xl overflow-hidden cursor-pointer"
+              className="signature-card group relative bg-[#2D2D2D] rounded-xl md:rounded-2xl overflow-hidden cursor-pointer"
             >
               {/* Card Image Area */}
-              <div className="relative h-64 bg-gradient-to-b from-[#3D3D3D] to-[#2D2D2D] overflow-hidden">
+              <div className="relative h-32 md:h-64 bg-gradient-to-b from-[#3D3D3D] to-[#2D2D2D] overflow-hidden">
                 <Image
                   src={dish.image}
                   alt={dish.name}
@@ -231,15 +231,16 @@ export default function SignatureDishes() {
                     initial={{ x: -100, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.5, type: 'spring' }}
-                    className="absolute top-4 left-4 flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-[#F97316] to-[#C41E24] text-white text-xs font-bold uppercase"
+                    className="absolute top-2 left-2 md:top-4 md:left-4 flex items-center gap-1 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-gradient-to-r from-[#F97316] to-[#C41E24] text-white text-[10px] md:text-xs font-bold uppercase"
                   >
                     <motion.div
                       animate={{ scale: [1, 1.2, 1] }}
                       transition={{ duration: 0.5, repeat: Infinity }}
                     >
-                      <Flame size={12} />
+                      <Flame size={10} className="md:w-3 md:h-3" />
                     </motion.div>
-                    Most Ordered
+                    <span className="hidden sm:inline">Most Ordered</span>
+                    <span className="sm:hidden">Hot</span>
                   </motion.div>
                 )}
 
@@ -249,31 +250,31 @@ export default function SignatureDishes() {
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.3 + index * 0.1, type: 'spring', stiffness: 200 }}
                   whileHover={{ scale: 1.15, rotate: [0, -5, 5, 0] }}
-                  className="absolute bottom-4 right-4 px-4 py-2 rounded-full bg-[#1A1A1A] text-white font-bold shadow-lg"
+                  className="absolute bottom-2 right-2 md:bottom-4 md:right-4 px-2 py-1 md:px-4 md:py-2 rounded-full bg-[#1A1A1A] text-white text-xs md:text-base font-bold shadow-lg"
                 >
-                  From ₹{dish.price}
+                  ₹{dish.price}
                 </motion.div>
               </div>
 
               {/* Card Content */}
-              <div className="p-6">
+              <div className="p-3 md:p-6">
                 <motion.span
-                  className="text-[#F97316] text-sm font-semibold uppercase tracking-wider inline-block"
+                  className="text-[#F97316] text-[10px] md:text-sm font-semibold uppercase tracking-wider inline-block"
                   whileHover={{ x: 5 }}
                 >
                   {dish.tagline}
                 </motion.span>
-                <h3 className="text-white text-xl font-bold mt-1 mb-2 group-hover:text-[#F97316] transition-colors duration-300">
+                <h3 className="text-white text-sm md:text-xl font-bold mt-0.5 md:mt-1 mb-1 md:mb-2 group-hover:text-[#F97316] transition-colors duration-300">
                   {dish.name}
                 </h3>
-                <p className="text-gray-400 text-sm line-clamp-2">
+                <p className="text-gray-400 text-[10px] md:text-sm line-clamp-2 hidden sm:block">
                   {dish.description}
                 </p>
               </div>
 
               {/* Animated border on hover */}
               <motion.div
-                className="absolute inset-0 rounded-2xl pointer-events-none"
+                className="absolute inset-0 rounded-xl md:rounded-2xl pointer-events-none"
                 initial={{ opacity: 0 }}
                 whileHover={{
                   opacity: 1,
