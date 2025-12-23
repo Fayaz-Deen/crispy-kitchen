@@ -7,6 +7,7 @@ import {
   VideoExperience,
   Contact,
 } from '@/components/sections';
+import FloatingOrderButton from '@/components/ui/FloatingOrderButton';
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      <FloatingOrderButton />
     </>
   );
 }

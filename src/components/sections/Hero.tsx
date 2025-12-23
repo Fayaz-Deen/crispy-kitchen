@@ -210,14 +210,14 @@ export default function Hero() {
         </motion.div>
 
         {/* Main Headline with 3D effect */}
-        <h1 className="text-5xl md:text-7xl lg:text-9xl font-black uppercase leading-none mb-8 perspective-1000">
-          <span className="hero-text-line block text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+        <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-black uppercase leading-none mb-6 md:mb-8 perspective-1000">
+          <span className="hero-text-line block text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] md:drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
             Crispy.
           </span>
-          <span className="hero-text-line block text-gradient-fire drop-shadow-[0_0_40px_rgba(249,115,22,0.5)]">
+          <span className="hero-text-line block text-gradient-fire drop-shadow-[0_0_25px_rgba(249,115,22,0.5)] md:drop-shadow-[0_0_40px_rgba(249,115,22,0.5)]">
             Juicy.
           </span>
-          <span className="hero-text-line block text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+          <span className="hero-text-line block text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] md:drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
             Addictive.
           </span>
         </h1>
@@ -227,7 +227,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.5, duration: 0.8 }}
-          className="text-xl md:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto"
+          className="text-base sm:text-xl md:text-2xl text-gray-300 mb-8 md:mb-12 max-w-2xl mx-auto px-4"
         >
           <motion.span
             animate={{ opacity: [0.7, 1, 0.7] }}
@@ -238,16 +238,16 @@ export default function Hero() {
           </motion.span>
         </motion.p>
 
-        {/* Animated CTA Buttons */}
+        {/* Animated CTA Buttons - Mobile optimized */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.8, duration: 0.6 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4"
         >
           <motion.a
             href="#menu"
-            className="btn-primary flex items-center gap-2 relative overflow-hidden group"
+            className="btn-primary flex items-center justify-center gap-2 relative overflow-hidden group w-full sm:w-auto"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -265,7 +265,7 @@ export default function Hero() {
             href="https://wa.me/919597376713?text=Hi!%20I%20would%20like%20to%20place%20an%20order"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-secondary flex items-center gap-2"
+            className="btn-secondary flex items-center justify-center gap-2 w-full sm:w-auto"
             whileHover={{ scale: 1.05, borderColor: '#25D366', color: '#25D366' }}
             whileTap={{ scale: 0.95 }}
           >
@@ -275,7 +275,7 @@ export default function Hero() {
 
           <motion.a
             href="#contact"
-            className="btn-secondary flex items-center gap-2"
+            className="btn-secondary flex items-center justify-center gap-2 w-full sm:w-auto"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
