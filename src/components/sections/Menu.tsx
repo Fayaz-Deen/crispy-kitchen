@@ -125,7 +125,7 @@ export default function Menu() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 mb-20 md:mb-0"
+            className="grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4 mb-20 md:mb-0"
           >
             {activeMenuItems.map((item, index) => (
               <MenuItemCard key={item.name} item={item} index={index} />
@@ -162,29 +162,29 @@ function MenuItemCard({ item, index }: { item: MenuItem; index: number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.03 }}
       whileTap={{ scale: 0.98 }}
-      className="group relative bg-[#2D2D2D] rounded-xl p-3 md:p-4 active:bg-[#3D3D3D] md:hover:bg-[#3D3D3D] transition-all duration-300 cursor-pointer"
+      className="group relative bg-[#2D2D2D] rounded-lg md:rounded-xl p-2 md:p-4 active:bg-[#3D3D3D] md:hover:bg-[#3D3D3D] transition-all duration-300 cursor-pointer"
     >
-      <div className="flex items-start justify-between gap-3 md:gap-4">
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-1 md:gap-4">
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-1.5 md:gap-2 mb-1 flex-wrap">
-            <h3 className="text-white font-bold text-sm md:text-base group-hover:text-[#F97316] transition-colors truncate">
+          <div className="flex items-center gap-1 md:gap-2 mb-0.5 md:mb-1 flex-wrap">
+            <h3 className="text-white font-bold text-xs md:text-base group-hover:text-[#F97316] transition-colors line-clamp-1">
               {item.name}
             </h3>
             {item.isPopular && (
-              <span className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-gradient-to-r from-[#F97316] to-[#C41E24] text-white text-[10px] md:text-xs font-bold flex-shrink-0">
-                <Flame size={8} className="md:w-[10px] md:h-[10px]" />
+              <span className="flex items-center gap-0.5 px-1 md:px-1.5 py-0.5 rounded-full bg-gradient-to-r from-[#F97316] to-[#C41E24] text-white text-[8px] md:text-xs font-bold flex-shrink-0">
+                <Flame size={6} className="md:w-[10px] md:h-[10px]" />
                 Hot
               </span>
             )}
             {item.isSpicy && (
-              <span className="px-1.5 py-0.5 rounded-full bg-[#C41E24]/20 text-[#F97316] text-[10px] md:text-xs font-bold flex-shrink-0">
+              <span className="px-1 py-0.5 rounded-full bg-[#C41E24]/20 text-[#F97316] text-[8px] md:text-xs font-bold flex-shrink-0">
                 🌶️
               </span>
             )}
           </div>
 
           {item.variants && item.variants.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mt-1.5 md:mt-2">
+            <div className="hidden md:flex flex-wrap gap-1.5 mt-1.5 md:mt-2">
               {item.variants.map((variant) => (
                 <span
                   key={variant.name}
@@ -197,12 +197,12 @@ function MenuItemCard({ item, index }: { item: MenuItem; index: number }) {
           )}
         </div>
 
-        <div className="text-right flex-shrink-0">
-          <span className="text-[#F97316] font-bold text-base md:text-lg">
+        <div className="text-left md:text-right flex-shrink-0">
+          <span className="text-[#F97316] font-bold text-sm md:text-lg">
             ₹{item.price}
           </span>
           {item.variants && (
-            <span className="block text-gray-500 text-[10px] md:text-xs">onwards</span>
+            <span className="text-gray-500 text-[8px] md:text-xs ml-1 md:ml-0 md:block">onwards</span>
           )}
         </div>
       </div>
