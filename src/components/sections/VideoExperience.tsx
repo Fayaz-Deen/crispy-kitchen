@@ -77,11 +77,11 @@ export default function VideoExperience() {
         </motion.div>
 
         {/* Video Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6">
           {videoItems.map((video, index) => (
             <motion.div
               key={video.id}
-              className="video-card group relative aspect-video bg-[#2D2D2D] rounded-2xl overflow-hidden cursor-pointer"
+              className="video-card group relative aspect-video bg-[#2D2D2D] rounded-xl md:rounded-2xl overflow-hidden cursor-pointer"
               whileHover={{ scale: 1.02 }}
               onClick={() => setSelectedVideo(video.id)}
             >
@@ -94,30 +94,30 @@ export default function VideoExperience() {
               <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300" />
 
               {/* Category badge */}
-              <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#1A1A1A]/80 text-[#F97316] text-xs font-bold uppercase">
+              <div className="absolute top-2 left-2 md:top-4 md:left-4 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-[#1A1A1A]/80 text-[#F97316] text-[10px] md:text-xs font-bold uppercase">
                 {video.category}
               </div>
 
               {/* Play button */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <motion.div
-                  className="w-16 h-16 rounded-full bg-gradient-to-r from-[#F97316] to-[#C41E24] flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                  className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-gradient-to-r from-[#F97316] to-[#C41E24] flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                   whileHover={{ scale: 1.1 }}
                 >
-                  <Play size={28} className="text-white ml-1" fill="white" />
+                  <Play size={16} className="text-white ml-0.5 md:ml-1 md:w-7 md:h-7" fill="white" />
                 </motion.div>
               </div>
 
               {/* Info overlay */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#1A1A1A] to-transparent">
-                <h3 className="text-white font-bold text-lg group-hover:text-[#F97316] transition-colors">
+              <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4 bg-gradient-to-t from-[#1A1A1A] to-transparent">
+                <h3 className="text-white font-bold text-xs md:text-lg group-hover:text-[#F97316] transition-colors line-clamp-1">
                   {video.title}
                 </h3>
-                <p className="text-gray-400 text-sm">{video.description}</p>
+                <p className="text-gray-400 text-[10px] md:text-sm hidden sm:block">{video.description}</p>
               </div>
 
               {/* Hover border */}
-              <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-[#F97316]/50 transition-all duration-300 pointer-events-none" />
+              <div className="absolute inset-0 rounded-xl md:rounded-2xl border-2 border-transparent group-hover:border-[#F97316]/50 transition-all duration-300 pointer-events-none" />
             </motion.div>
           ))}
         </div>

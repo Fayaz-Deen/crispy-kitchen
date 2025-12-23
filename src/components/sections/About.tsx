@@ -111,19 +111,19 @@ export default function About() {
         </motion.div>
 
         {/* Features Grid */}
-        <div className="about-features grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
+        <div className="about-features grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-6 mb-12 md:mb-24">
           {features.map((feature, index) => (
             <div
               key={feature.title}
-              className="about-feature group bg-[#2D2D2D] rounded-2xl p-6 hover:bg-[#3D3D3D] transition-all duration-300"
+              className="about-feature group bg-[#2D2D2D] rounded-xl md:rounded-2xl p-3 md:p-6 hover:bg-[#3D3D3D] transition-all duration-300"
             >
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#F97316] to-[#C41E24] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                <feature.icon size={28} className="text-white" />
+              <div className="w-10 h-10 md:w-14 md:h-14 rounded-lg md:rounded-xl bg-gradient-to-br from-[#F97316] to-[#C41E24] flex items-center justify-center mb-2 md:mb-4 group-hover:scale-110 transition-transform duration-300">
+                <feature.icon size={20} className="text-white md:w-7 md:h-7" />
               </div>
-              <h3 className="text-white text-xl font-bold mb-2">
+              <h3 className="text-white text-sm md:text-xl font-bold mb-1 md:mb-2">
                 {feature.title}
               </h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
+              <p className="text-gray-400 text-[10px] md:text-sm leading-relaxed line-clamp-2 md:line-clamp-none">
                 {feature.description}
               </p>
             </div>
@@ -146,11 +146,11 @@ export default function About() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-6">
             {flavorProfiles.map((flavor, index) => (
               <div
                 key={flavor.name}
-                className="flavor-card group relative bg-[#2D2D2D] rounded-2xl p-6 overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-300"
+                className="flavor-card group relative bg-[#2D2D2D] rounded-xl md:rounded-2xl p-3 md:p-6 overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-300"
               >
                 {/* Background glow */}
                 <div
@@ -162,25 +162,25 @@ export default function About() {
 
                 <div className="relative z-10">
                   <div
-                    className="w-12 h-12 rounded-full mb-4 flex items-center justify-center"
+                    className="w-8 h-8 md:w-12 md:h-12 rounded-full mb-2 md:mb-4 flex items-center justify-center"
                     style={{ backgroundColor: `${flavor.color}20` }}
                   >
-                    <Flame size={24} style={{ color: flavor.color }} />
+                    <Flame size={16} className="md:w-6 md:h-6" style={{ color: flavor.color }} />
                   </div>
                   <h4
-                    className="text-xl font-bold mb-2 transition-colors duration-300"
+                    className="text-sm md:text-xl font-bold mb-1 md:mb-2 transition-colors duration-300"
                     style={{ color: flavor.color }}
                   >
                     {flavor.name}
                   </h4>
-                  <p className="text-gray-400 text-sm">
+                  <p className="text-gray-400 text-[10px] md:text-sm line-clamp-2 md:line-clamp-none">
                     {flavor.description}
                   </p>
                 </div>
 
                 {/* Border effect */}
                 <div
-                  className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-current transition-all duration-300 pointer-events-none"
+                  className="absolute inset-0 rounded-xl md:rounded-2xl border-2 border-transparent group-hover:border-current transition-all duration-300 pointer-events-none"
                   style={{ borderColor: `${flavor.color}50` }}
                 />
               </div>
