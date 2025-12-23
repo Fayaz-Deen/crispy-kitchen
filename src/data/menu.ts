@@ -286,7 +286,7 @@ export const contactInfo = {
   address: 'No.6, Food Bazaar, Thiruparankundram Road, Palanganatham, (Near Jeevan Honda), Madurai - 03',
   phone: '+91 95973 76713',
   whatsapp: '919597376713',
-  instagram: 'crispykitchen.madurai',
+  instagram: 'crispy_kitchen_1',
   mapUrl: 'https://maps.google.com/?q=Crispy+Kitchen+Madurai',
   openingHours: '11:00 AM - 11:00 PM',
 };
