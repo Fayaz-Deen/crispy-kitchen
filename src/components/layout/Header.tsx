@@ -132,28 +132,23 @@ export default function Header() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 top-16 bg-[#1A1A1A]/98 backdrop-blur-lg md:hidden z-40"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className="absolute top-full left-0 right-0 bg-[#1A1A1A] md:hidden z-40 border-t border-[#2D2D2D] shadow-2xl"
           >
-            <motion.nav
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.1 }}
-              className="flex flex-col items-center justify-center h-full gap-6 px-6"
-            >
+            <nav className="flex flex-col py-4 px-4">
               {navLinks.map((link, index) => (
                 <motion.div
                   key={link.name}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + index * 0.1 }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 }}
                 >
                   <Link
                     href={link.href}
-                    className="text-white font-black uppercase tracking-wider text-3xl hover:text-[#F97316] transition-colors"
+                    className="block text-white font-bold uppercase tracking-wider text-lg py-3 px-4 hover:bg-[#2D2D2D] rounded-xl transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.name}
@@ -161,41 +156,41 @@ export default function Header() {
                 </motion.div>
               ))}
 
+              {/* Divider */}
+              <div className="h-px bg-[#2D2D2D] my-3" />
+
               {/* Mobile Quick Actions */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="flex flex-col gap-4 mt-8 w-full max-w-xs"
-              >
+              <div className="flex flex-col gap-3 px-2">
                 <a
                   href="https://wa.me/919597376713?text=Hi!%20I%20would%20like%20to%20place%20an%20order"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 bg-[#25D366] text-white font-bold py-4 px-6 rounded-2xl text-lg"
+                  className="flex items-center justify-center gap-3 bg-[#25D366] text-white font-bold py-3 px-6 rounded-xl text-base"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <MessageCircle size={24} />
+                  <MessageCircle size={20} />
                   Order on WhatsApp
                 </a>
-                <a
-                  href="tel:+919597376713"
-                  className="flex items-center justify-center gap-3 bg-[#2D2D2D] text-white font-bold py-4 px-6 rounded-2xl text-lg"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <Phone size={24} />
-                  Call Now
-                </a>
-                <a
-                  href="#contact"
-                  className="flex items-center justify-center gap-3 bg-gradient-to-r from-[#F97316] to-[#C41E24] text-white font-bold py-4 px-6 rounded-2xl text-lg"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <MapPin size={24} />
-                  Visit Store
-                </a>
-              </motion.div>
-            </motion.nav>
+                <div className="flex gap-3">
+                  <a
+                    href="tel:+919597376713"
+                    className="flex-1 flex items-center justify-center gap-2 bg-[#2D2D2D] text-white font-bold py-3 px-4 rounded-xl text-sm"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <Phone size={18} />
+                    Call
+                  </a>
+                  <a
+                    href="#contact"
+                    className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-[#F97316] to-[#C41E24] text-white font-bold py-3 px-4 rounded-xl text-sm"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <MapPin size={18} />
+                    Visit
+                  </a>
+                </div>
+              </div>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>
