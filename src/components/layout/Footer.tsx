@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Instagram, Phone, MapPin, Clock } from 'lucide-react';
+import { Instagram, Phone, MapPin, Clock, Handshake } from 'lucide-react';
 import { contactInfo } from '@/data/menu';
 
 export default function Footer() {
@@ -80,22 +80,41 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Order */}
-          <div>
-            <h3 className="text-white font-bold uppercase tracking-wider mb-6">
-              Order Now
-            </h3>
-            <p className="text-gray-400 text-sm mb-4">
-              Craving some crispy goodness? Order directly via WhatsApp!
-            </p>
-            <a
-              href={`https://wa.me/${contactInfo.whatsapp}?text=Hi!%20I%20would%20like%20to%20place%20an%20order`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary inline-block text-sm"
-            >
-              WhatsApp Order
-            </a>
+          {/* Order & Franchise */}
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-white font-bold uppercase tracking-wider mb-4">
+                Order Now
+              </h3>
+              <p className="text-gray-400 text-sm mb-3">
+                Craving some crispy goodness?
+              </p>
+              <a
+                href={`https://wa.me/${contactInfo.whatsapp}?text=Hi!%20I%20would%20like%20to%20place%20an%20order`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary inline-block text-sm"
+              >
+                WhatsApp Order
+              </a>
+            </div>
+            <div className="pt-4 border-t border-[#2D2D2D]">
+              <h3 className="text-white font-bold uppercase tracking-wider mb-3 flex items-center gap-2">
+                <Handshake size={18} className="text-[#F97316]" />
+                Franchise
+              </h3>
+              <p className="text-gray-400 text-sm mb-3">
+                Own a Crispy Kitchen outlet
+              </p>
+              <a
+                href={`https://wa.me/${contactInfo.whatsapp}?text=Hi!%20I%20am%20interested%20in%20franchise%20opportunities`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#F97316] hover:text-[#FB923C] font-semibold text-sm transition-colors"
+              >
+                Enquire Now →
+              </a>
+            </div>
           </div>
         </div>
 

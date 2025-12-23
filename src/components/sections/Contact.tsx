@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { MapPin, Phone, Clock, Instagram, MessageCircle, Navigation } from 'lucide-react';
+import { MapPin, Phone, Clock, Instagram, MessageCircle, Navigation, Handshake } from 'lucide-react';
 import { contactInfo } from '@/data/menu';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -128,6 +128,30 @@ export default function Contact() {
                   <p className="text-gray-400 text-sm mt-1">
                     Open all days of the week
                   </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Franchise Enquiry Card */}
+            <div className="contact-card bg-gradient-to-br from-[#2D2D2D] to-[#1A1A1A] rounded-2xl p-6 border border-[#F97316]/30 hover:border-[#F97316]/60 transition-all duration-300">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#F97316] to-[#C41E24] flex items-center justify-center flex-shrink-0">
+                  <Handshake size={24} className="text-white" />
+                </div>
+                <div>
+                  <h3 className="text-white font-bold text-lg mb-2">Franchise Enquiry</h3>
+                  <p className="text-gray-400 text-sm mb-3">
+                    Interested in owning a Crispy Kitchen franchise?
+                  </p>
+                  <a
+                    href={`https://wa.me/${contactInfo.whatsapp}?text=Hi!%20I%20am%20interested%20in%20franchise%20opportunities`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-[#F97316] font-semibold hover:text-[#FB923C] transition-colors"
+                  >
+                    <MessageCircle size={16} />
+                    Enquire Now
+                  </a>
                 </div>
               </div>
             </div>
