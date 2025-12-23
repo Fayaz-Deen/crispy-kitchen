@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Flame } from 'lucide-react';
+import { Flame, Sparkles, Star } from 'lucide-react';
 import Image from 'next/image';
 
 const signatureDishes = [
@@ -16,28 +16,45 @@ const signatureDishes = [
 
 gsap.registerPlugin(ScrollTrigger);
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 100, rotateX: -15 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.25, 0.46, 0.45, 0.94],
+    },
+  },
+};
+
 export default function SignatureDishes() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Animate cards on scroll
-      gsap.fromTo(
-        '.signature-card',
-        { y: 100, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
+      // Floating animation for decorative elements
+      gsap.to('.float-decoration', {
+        y: -15,
+        duration: 2,
+        ease: 'power1.inOut',
+        yoyo: true,
+        repeat: -1,
+        stagger: 0.3,
+      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -46,40 +63,118 @@ export default function SignatureDishes() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-24 md:py-32 bg-[#1A1A1A]"
+      className="relative py-24 md:py-32 bg-[#1A1A1A] overflow-hidden"
     >
-      {/* Background decoration */}
+      {/* Animated background decorations */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#C41E24]/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#F97316]/10 rounded-full blur-3xl" />
+        <motion.div
+          className="absolute top-0 left-1/4 w-96 h-96 bg-[#C41E24]/10 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.1, 0.2, 0.1],
+          }}
+          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#F97316]/10 rounded-full blur-3xl"
+          animate={{
+            scale: [1.2, 1, 1.2],
+            opacity: [0.2, 0.1, 0.2],
+          }}
+          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      </div>
+
+      {/* Floating sparkles */}
+      <div className="absolute inset-0 pointer-events-none">
+        {Array.from({ length: 15 }).map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute float-decoration"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              opacity: [0, 1, 0],
+              scale: [0.5, 1, 0.5],
+              rotate: [0, 180, 360],
+            }}
+            transition={{
+              duration: 3 + Math.random() * 2,
+              delay: Math.random() * 2,
+              repeat: Infinity,
+            }}
+          >
+            <Sparkles className="w-4 h-4 text-[#F97316]/50" />
+          </motion.div>
+        ))}
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+        {/* Section Header with enhanced animation */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#C41E24]/10 text-[#F97316] text-sm font-semibold uppercase tracking-wider mb-4">
-            <Flame size={16} className="animate-flame" />
+          <motion.span
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#C41E24]/10 text-[#F97316] text-sm font-semibold uppercase tracking-wider mb-4"
+          >
+            <motion.div
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 2 }}
+            >
+              <Flame size={16} />
+            </motion.div>
             Signature Selection
-          </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase text-white mb-4">
+            <motion.div
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 1, repeat: Infinity }}
+            >
+              <Star size={14} fill="#F97316" />
+            </motion.div>
+          </motion.span>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-black uppercase text-white mb-4"
+          >
             Our <span className="text-gradient-fire">Best Sellers</span>
-          </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="text-gray-400 text-lg max-w-2xl mx-auto"
+          >
             The dishes that made us famous. Each one crafted to crispy perfection.
-          </p>
+          </motion.p>
         </motion.div>
 
-        {/* Signature Dishes Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Signature Dishes Grid with stagger animation */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
           {signatureDishes.map((dish, index) => (
-            <div
+            <motion.div
               key={dish.id}
+              variants={cardVariants}
+              whileHover={{ y: -10, transition: { duration: 0.3 } }}
               className="signature-card group relative bg-[#2D2D2D] rounded-2xl overflow-hidden cursor-pointer"
             >
               {/* Card Image Area */}
@@ -88,22 +183,36 @@ export default function SignatureDishes() {
                   src={dish.image}
                   alt={dish.name}
                   fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#2D2D2D] via-transparent to-transparent" />
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-t from-[#2D2D2D] via-transparent to-transparent"
+                  whileHover={{ opacity: 0.5 }}
+                />
+
+                {/* Animated shine effect on hover */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
+                  initial={{ x: '-200%' }}
+                  whileHover={{ x: '200%' }}
+                  transition={{ duration: 0.8 }}
+                />
 
                 {/* Floating spice particles on hover */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  {Array.from({ length: 8 }).map((_, i) => (
+                  {Array.from({ length: 12 }).map((_, i) => (
                     <motion.div
                       key={i}
-                      className="absolute w-2 h-2 rounded-full bg-[#F97316]"
+                      className="absolute w-2 h-2 rounded-full"
                       style={{
                         left: `${20 + Math.random() * 60}%`,
                         top: `${20 + Math.random() * 60}%`,
+                        background: i % 2 === 0 ? '#F97316' : '#FACC15',
+                        boxShadow: `0 0 10px ${i % 2 === 0 ? '#F97316' : '#FACC15'}`,
                       }}
                       animate={{
-                        y: [-10, -30],
+                        y: [-10, -40],
+                        x: [0, (Math.random() - 0.5) * 30],
                         opacity: [0, 1, 0],
                         scale: [0.5, 1, 0.5],
                       }}
@@ -118,17 +227,29 @@ export default function SignatureDishes() {
 
                 {/* Most Ordered Badge */}
                 {index === 0 && (
-                  <div className="absolute top-4 left-4 flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-[#F97316] to-[#C41E24] text-white text-xs font-bold uppercase">
-                    <Flame size={12} />
+                  <motion.div
+                    initial={{ x: -100, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.5, type: 'spring' }}
+                    className="absolute top-4 left-4 flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-[#F97316] to-[#C41E24] text-white text-xs font-bold uppercase"
+                  >
+                    <motion.div
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 0.5, repeat: Infinity }}
+                    >
+                      <Flame size={12} />
+                    </motion.div>
                     Most Ordered
-                  </div>
+                  </motion.div>
                 )}
 
-                {/* Price Badge */}
+                {/* Price Badge with bounce */}
                 <motion.div
-                  initial={{ scale: 1 }}
-                  whileHover={{ scale: 1.1 }}
-                  className="absolute bottom-4 right-4 px-4 py-2 rounded-full bg-[#1A1A1A] text-white font-bold"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.3 + index * 0.1, type: 'spring', stiffness: 200 }}
+                  whileHover={{ scale: 1.15, rotate: [0, -5, 5, 0] }}
+                  className="absolute bottom-4 right-4 px-4 py-2 rounded-full bg-[#1A1A1A] text-white font-bold shadow-lg"
                 >
                   From ₹{dish.price}
                 </motion.div>
@@ -136,10 +257,13 @@ export default function SignatureDishes() {
 
               {/* Card Content */}
               <div className="p-6">
-                <span className="text-[#F97316] text-sm font-semibold uppercase tracking-wider">
+                <motion.span
+                  className="text-[#F97316] text-sm font-semibold uppercase tracking-wider inline-block"
+                  whileHover={{ x: 5 }}
+                >
                   {dish.tagline}
-                </span>
-                <h3 className="text-white text-xl font-bold mt-1 mb-2 group-hover:text-[#F97316] transition-colors">
+                </motion.span>
+                <h3 className="text-white text-xl font-bold mt-1 mb-2 group-hover:text-[#F97316] transition-colors duration-300">
                   {dish.name}
                 </h3>
                 <p className="text-gray-400 text-sm line-clamp-2">
@@ -147,27 +271,42 @@ export default function SignatureDishes() {
                 </p>
               </div>
 
-              {/* Hover glow effect */}
-              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none border-2 border-[#F97316]/50 glow-orange" />
-            </div>
+              {/* Animated border on hover */}
+              <motion.div
+                className="absolute inset-0 rounded-2xl pointer-events-none"
+                initial={{ opacity: 0 }}
+                whileHover={{
+                  opacity: 1,
+                  boxShadow: '0 0 30px rgba(249,115,22,0.4), inset 0 0 0 2px rgba(249,115,22,0.5)',
+                }}
+                transition={{ duration: 0.3 }}
+              />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        {/* CTA */}
+        {/* CTA with animation */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
           className="text-center mt-12"
         >
-          <a
+          <motion.a
             href="#menu"
-            className="btn-primary inline-flex items-center gap-2"
+            className="btn-primary inline-flex items-center gap-2 relative overflow-hidden"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             <span>Explore Full Menu</span>
-            <Flame size={18} />
-          </a>
+            <motion.div
+              animate={{ x: [0, 5, 0] }}
+              transition={{ duration: 1, repeat: Infinity }}
+            >
+              <Flame size={18} />
+            </motion.div>
+          </motion.a>
         </motion.div>
       </div>
     </section>
