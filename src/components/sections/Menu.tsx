@@ -244,3 +244,4 @@ function MenuItemCard({ item, index, categoryImage }: { item: MenuItem; index: n
     </motion.div>
   );
 }
+
