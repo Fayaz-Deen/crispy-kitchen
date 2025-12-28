@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ChevronDown, MapPin, MessageCircle, Flame } from 'lucide-react';
+import Image from 'next/image';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -65,8 +66,8 @@ export default function Hero() {
     return () => ctx.revert();
   }, []);
 
-  // More particles with varied sizes and colors
-  const particles = Array.from({ length: 40 }, (_, i) => ({
+  // Reduced particles for better performance
+  const particles = Array.from({ length: 15 }, (_, i) => ({
     id: i,
     x: Math.random() * 100,
     y: Math.random() * 100,
@@ -76,8 +77,8 @@ export default function Hero() {
     color: i % 3 === 0 ? '#F97316' : i % 3 === 1 ? '#C41E24' : '#FACC15',
   }));
 
-  // Floating food emojis
-  const floatingEmojis = ['🍗', '🔥', '🍟', '✨', '🌶️', '💥'];
+  // Floating food emojis - reduced for performance
+  const floatingEmojis = ['🍗', '🔥', '🍟', '✨'];
 
   return (
     <section
@@ -87,10 +88,18 @@ export default function Hero() {
     >
       {/* Animated gradient background */}
       <div className="hero-bg absolute inset-0 z-0">
+        <Image
+          src="/images/hero-bg.jpg"
+          alt="Crispy Kitchen hero background"
+          fill
+          priority
+          quality={75}
+          sizes="100vw"
+          className="object-cover"
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-[#1A1A1A] via-transparent to-[#1A1A1A] z-10" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A1A]/90 via-transparent to-[#1A1A1A]/90 z-10" />
-        <div className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center bg-fixed" />
-        <div className="absolute inset-0 bg-[#1A1A1A]/60" />
+        <div className="absolute inset-0 bg-[#1A1A1A]/60 z-10" />
 
         {/* Animated overlay gradients */}
         <motion.div
@@ -165,13 +174,13 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Rising smoke/steam effect */}
+      {/* Rising smoke/steam effect - reduced for performance */}
       <div className="absolute bottom-0 left-0 right-0 h-1/2 z-10 overflow-hidden pointer-events-none">
-        {Array.from({ length: 8 }).map((_, i) => (
+        {Array.from({ length: 4 }).map((_, i) => (
           <motion.div
             key={i}
             className="absolute bottom-0 w-32 h-32 rounded-full bg-gradient-to-t from-white/10 to-transparent blur-xl"
-            style={{ left: `${10 + i * 12}%` }}
+            style={{ left: `${15 + i * 20}%` }}
             animate={{
               y: [0, -400],
               opacity: [0.5, 0],
