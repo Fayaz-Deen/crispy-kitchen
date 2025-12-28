@@ -1,37 +1,28 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useEffect, useRef, useState } from 'react';
 import { MapPin, Phone, Clock, Instagram, MessageCircle, Navigation, Handshake } from 'lucide-react';
 import { contactInfo } from '@/data/menu';
 
-gsap.registerPlugin(ScrollTrigger);
-
 export default function Contact() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.contact-card',
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.6,
-          stagger: 0.1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-          },
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
         }
-      );
-    }, sectionRef);
+      },
+      { threshold: 0.1 }
+    );
 
-    return () => ctx.revert();
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -47,13 +38,7 @@ export default function Contact() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
+        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#C41E24]/10 text-[#F97316] text-sm font-semibold uppercase tracking-wider mb-4">
             <MapPin size={16} />
             Find Us
@@ -64,13 +49,13 @@ export default function Contact() {
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
             Come taste the crunch in person or order directly via WhatsApp
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Contact Cards */}
           <div className="space-y-6">
             {/* Address Card */}
-            <div className="contact-card bg-[#2D2D2D] rounded-2xl p-6 hover:bg-[#3D3D3D] transition-all duration-300">
+            <div className={`contact-card bg-[#2D2D2D] rounded-2xl p-6 hover:bg-[#3D3D3D] transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '100ms' }}>
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#F97316] to-[#C41E24] flex items-center justify-center flex-shrink-0">
                   <MapPin size={24} className="text-white" />
@@ -94,7 +79,7 @@ export default function Contact() {
             </div>
 
             {/* Contact Card */}
-            <div className="contact-card bg-[#2D2D2D] rounded-2xl p-6 hover:bg-[#3D3D3D] transition-all duration-300">
+            <div className={`contact-card bg-[#2D2D2D] rounded-2xl p-6 hover:bg-[#3D3D3D] transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '200ms' }}>
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#F97316] to-[#C41E24] flex items-center justify-center flex-shrink-0">
                   <Phone size={24} className="text-white" />
@@ -115,7 +100,7 @@ export default function Contact() {
             </div>
 
             {/* Hours Card */}
-            <div className="contact-card bg-[#2D2D2D] rounded-2xl p-6 hover:bg-[#3D3D3D] transition-all duration-300">
+            <div className={`contact-card bg-[#2D2D2D] rounded-2xl p-6 hover:bg-[#3D3D3D] transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '300ms' }}>
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#F97316] to-[#C41E24] flex items-center justify-center flex-shrink-0">
                   <Clock size={24} className="text-white" />
@@ -133,7 +118,7 @@ export default function Contact() {
             </div>
 
             {/* Franchise Enquiry Card */}
-            <div className="contact-card bg-gradient-to-br from-[#2D2D2D] to-[#1A1A1A] rounded-2xl p-6 border border-[#F97316]/30 hover:border-[#F97316]/60 transition-all duration-300">
+            <div className={`contact-card bg-gradient-to-br from-[#2D2D2D] to-[#1A1A1A] rounded-2xl p-6 border border-[#F97316]/30 hover:border-[#F97316]/60 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '400ms' }}>
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#F97316] to-[#C41E24] flex items-center justify-center flex-shrink-0">
                   <Handshake size={24} className="text-white" />
@@ -157,7 +142,7 @@ export default function Contact() {
             </div>
 
             {/* Quick Action Buttons */}
-            <div className="contact-card flex flex-col sm:flex-row gap-4">
+            <div className={`contact-card flex flex-col sm:flex-row gap-4 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '500ms' }}>
               <a
                 href={`https://wa.me/${contactInfo.whatsapp}?text=Hi!%20I%20would%20like%20to%20place%20an%20order`}
                 target="_blank"
@@ -172,6 +157,7 @@ export default function Contact() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F77737] text-white font-bold py-4 px-6 rounded-xl hover:opacity-90 transition-all duration-300"
+                aria-label="Follow us on Instagram"
               >
                 <Instagram size={20} />
                 Follow Us
@@ -180,7 +166,7 @@ export default function Contact() {
           </div>
 
           {/* Map */}
-          <div className="contact-card relative h-[400px] lg:h-full min-h-[400px] bg-[#2D2D2D] rounded-2xl overflow-hidden">
+          <div className={`contact-card relative h-[400px] lg:h-full min-h-[400px] bg-[#2D2D2D] rounded-2xl overflow-hidden transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '300ms' }}>
             {/* Google Maps Embed */}
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3930.5!2d78.1!3d9.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwNTQnMDAuMCJOIDc4wrAwNicwMC4wIkU!5e0!3m2!1sen!2sin!4v1234567890"

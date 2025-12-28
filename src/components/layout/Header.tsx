@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Menu, X, Phone, MessageCircle, MapPin } from 'lucide-react';
@@ -38,11 +37,8 @@ export default function Header() {
   }, [isMobileMenuOpen]);
 
   return (
-    <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 animate-slide-down ${
         isScrolled || isMobileMenuOpen
           ? 'bg-[#1A1A1A]/98 backdrop-blur-md shadow-lg'
           : 'bg-transparent'
@@ -96,106 +92,69 @@ export default function Header() {
           </div>
 
           {/* Mobile Menu Button */}
-          <motion.button
-            className="md:hidden text-white p-2 z-50"
+          <button
+            className="md:hidden text-white p-2 z-50 active:scale-90 transition-transform"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            whileTap={{ scale: 0.9 }}
             aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMobileMenuOpen}
           >
-            <AnimatePresence mode="wait">
-              {isMobileMenuOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <X size={28} />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Menu size={28} />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.button>
+            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
         </div>
       </div>
 
       {/* Mobile Menu - Full Screen */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-            className="absolute top-full left-0 right-0 bg-[#1A1A1A] md:hidden z-40 border-t border-[#2D2D2D] shadow-2xl"
-          >
-            <nav className="flex flex-col py-4 px-4">
-              {navLinks.map((link, index) => (
-                <motion.div
-                  key={link.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                >
-                  <Link
-                    href={link.href}
-                    className="block text-white font-bold uppercase tracking-wider text-lg py-3 px-4 hover:bg-[#2D2D2D] rounded-xl transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {link.name}
-                  </Link>
-                </motion.div>
-              ))}
+      {isMobileMenuOpen && (
+        <div className="absolute top-full left-0 right-0 bg-[#1A1A1A] md:hidden z-40 border-t border-[#2D2D2D] shadow-2xl animate-fade-in-fast">
+          <nav className="flex flex-col py-4 px-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="block text-white font-bold uppercase tracking-wider text-lg py-3 px-4 hover:bg-[#2D2D2D] rounded-xl transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {link.name}
+              </Link>
+            ))}
 
-              {/* Divider */}
-              <div className="h-px bg-[#2D2D2D] my-3" />
+            {/* Divider */}
+            <div className="h-px bg-[#2D2D2D] my-3" />
 
-              {/* Mobile Quick Actions */}
-              <div className="flex flex-col gap-3 px-2">
+            {/* Mobile Quick Actions */}
+            <div className="flex flex-col gap-3 px-2">
+              <a
+                href="https://wa.me/919597376713?text=Hi!%20I%20would%20like%20to%20place%20an%20order"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 bg-[#25D366] text-white font-bold py-3 px-6 rounded-xl text-base"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <MessageCircle size={20} />
+                Order on WhatsApp
+              </a>
+              <div className="flex gap-3">
                 <a
-                  href="https://wa.me/919597376713?text=Hi!%20I%20would%20like%20to%20place%20an%20order"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 bg-[#25D366] text-white font-bold py-3 px-6 rounded-xl text-base"
+                  href="tel:+919597376713"
+                  className="flex-1 flex items-center justify-center gap-2 bg-[#2D2D2D] text-white font-bold py-3 px-4 rounded-xl text-sm"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <MessageCircle size={20} />
-                  Order on WhatsApp
+                  <Phone size={18} />
+                  Call
                 </a>
-                <div className="flex gap-3">
-                  <a
-                    href="tel:+919597376713"
-                    className="flex-1 flex items-center justify-center gap-2 bg-[#2D2D2D] text-white font-bold py-3 px-4 rounded-xl text-sm"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <Phone size={18} />
-                    Call
-                  </a>
-                  <a
-                    href="#contact"
-                    className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-[#F97316] to-[#C41E24] text-white font-bold py-3 px-4 rounded-xl text-sm"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <MapPin size={18} />
-                    Visit
-                  </a>
-                </div>
+                <a
+                  href="#contact"
+                  className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-[#F97316] to-[#C41E24] text-white font-bold py-3 px-4 rounded-xl text-sm"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <MapPin size={18} />
+                  Visit
+                </a>
               </div>
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
+            </div>
+          </nav>
+        </div>
+      )}
+    </header>
   );
 }

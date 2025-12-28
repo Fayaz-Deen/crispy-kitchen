@@ -1,13 +1,8 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Play, X, Film } from 'lucide-react';
 import Image from 'next/image';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const videoItems = [
   { id: 1, title: 'The Perfect Fry', description: 'Watch our chicken hit the hot oil', thumbnail: '/images/video-frying.jpg', category: 'Frying' },
@@ -20,28 +15,24 @@ const videoItems = [
 
 export default function VideoExperience() {
   const [selectedVideo, setSelectedVideo] = useState<number | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.video-card',
-        { scale: 0.9, opacity: 0 },
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 0.5,
-          stagger: 0.1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-          },
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
         }
-      );
-    }, sectionRef);
+      },
+      { threshold: 0.1 }
+    );
 
-    return () => ctx.revert();
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -52,18 +43,12 @@ export default function VideoExperience() {
       {/* Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#F97316]/5 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#C41E24]/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#C41E24]/5 rounded-full blur-3xl animate-pulse animation-delay-1000" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
+        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#C41E24]/10 text-[#F97316] text-sm font-semibold uppercase tracking-wider mb-4">
             <Film size={16} />
             Visual Experience
@@ -74,15 +59,15 @@ export default function VideoExperience() {
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
             Food that looks as good as it tastes. Get hungry just watching.
           </p>
-        </motion.div>
+        </div>
 
         {/* Video Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6">
           {videoItems.map((video, index) => (
-            <motion.div
+            <div
               key={video.id}
-              className="video-card group relative aspect-video bg-[#2D2D2D] rounded-xl md:rounded-2xl overflow-hidden cursor-pointer"
-              whileHover={{ scale: 1.02 }}
+              className={`video-card group relative aspect-video bg-[#2D2D2D] rounded-xl md:rounded-2xl overflow-hidden cursor-pointer hover:scale-[1.02] transition-all duration-500 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}
+              style={{ transitionDelay: `${index * 100}ms` }}
               onClick={() => setSelectedVideo(video.id)}
             >
               <Image
@@ -100,12 +85,9 @@ export default function VideoExperience() {
 
               {/* Play button */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <motion.div
-                  className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-gradient-to-r from-[#F97316] to-[#C41E24] flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
-                  whileHover={{ scale: 1.1 }}
-                >
+                <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-gradient-to-r from-[#F97316] to-[#C41E24] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Play size={16} className="text-white ml-0.5 md:ml-1 md:w-7 md:h-7" fill="white" />
-                </motion.div>
+                </div>
               </div>
 
               {/* Info overlay */}
@@ -118,51 +100,43 @@ export default function VideoExperience() {
 
               {/* Hover border */}
               <div className="absolute inset-0 rounded-xl md:rounded-2xl border-2 border-transparent group-hover:border-[#F97316]/50 transition-all duration-300 pointer-events-none" />
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* Video Modal Placeholder */}
-        <AnimatePresence>
-          {selectedVideo && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
-              onClick={() => setSelectedVideo(null)}
+        {selectedVideo && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 animate-fade-in-fast"
+            onClick={() => setSelectedVideo(null)}
+          >
+            <div
+              className="relative max-w-4xl w-full aspect-video bg-[#2D2D2D] rounded-2xl overflow-hidden animate-scale-in"
+              onClick={(e) => e.stopPropagation()}
             >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="relative max-w-4xl w-full aspect-video bg-[#2D2D2D] rounded-2xl overflow-hidden"
-                onClick={(e) => e.stopPropagation()}
+              {/* Close button */}
+              <button
+                onClick={() => setSelectedVideo(null)}
+                className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-[#1A1A1A] flex items-center justify-center text-white hover:bg-[#C41E24] transition-colors"
               >
-                {/* Close button */}
-                <button
-                  onClick={() => setSelectedVideo(null)}
-                  className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-[#1A1A1A] flex items-center justify-center text-white hover:bg-[#C41E24] transition-colors"
-                >
-                  <X size={20} />
-                </button>
+                <X size={20} />
+              </button>
 
-                {/* Video placeholder */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-r from-[#F97316] to-[#C41E24] flex items-center justify-center mb-4">
-                    <Play size={36} className="text-white ml-1" fill="white" />
-                  </div>
-                  <h3 className="text-white text-2xl font-bold mb-2">
-                    {videoItems.find((v) => v.id === selectedVideo)?.title}
-                  </h3>
-                  <p className="text-gray-400">
-                    Video content coming soon! Add your delicious food videos here.
-                  </p>
+              {/* Video placeholder */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-r from-[#F97316] to-[#C41E24] flex items-center justify-center mb-4">
+                  <Play size={36} className="text-white ml-1" fill="white" />
                 </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                <h3 className="text-white text-2xl font-bold mb-2">
+                  {videoItems.find((v) => v.id === selectedVideo)?.title}
+                </h3>
+                <p className="text-gray-400">
+                  Video content coming soon! Add your delicious food videos here.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -1,13 +1,8 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useEffect, useRef, useState } from 'react';
 import { Flame, Droplets, Sparkles, Thermometer } from 'lucide-react';
 import { flavorProfiles } from '@/data/menu';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const features = [
   {
@@ -34,45 +29,23 @@ const features = [
 
 export default function About() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Animate features on scroll
-      gsap.fromTo(
-        '.about-feature',
-        { x: -50, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 0.6,
-          stagger: 0.1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.about-features',
-            start: 'top 70%',
-          },
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
         }
-      );
+      },
+      { threshold: 0.1 }
+    );
 
-      // Animate flavor profiles
-      gsap.fromTo(
-        '.flavor-card',
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.6,
-          stagger: 0.1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.flavor-profiles',
-            start: 'top 70%',
-          },
-        }
-      );
-    }, sectionRef);
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
 
-    return () => ctx.revert();
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -89,13 +62,7 @@ export default function About() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
-        >
+        <div className={`text-center mb-20 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#C41E24]/10 text-[#F97316] text-sm font-semibold uppercase tracking-wider mb-4">
             <Flame size={16} className="animate-flame" />
             Our Story
@@ -108,14 +75,15 @@ export default function About() {
             the science of crunch - the perfect coating, the ideal temperature,
             and flavors that make you come back for more.
           </p>
-        </motion.div>
+        </div>
 
         {/* Features Grid */}
         <div className="about-features grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-6 mb-12 md:mb-24">
           {features.map((feature, index) => (
             <div
               key={feature.title}
-              className="about-feature group bg-[#2D2D2D] rounded-xl md:rounded-2xl p-3 md:p-6 hover:bg-[#3D3D3D] transition-all duration-300"
+              className={`about-feature group bg-[#2D2D2D] rounded-xl md:rounded-2xl p-3 md:p-6 hover:bg-[#3D3D3D] transition-all duration-500 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'}`}
+              style={{ transitionDelay: `${index * 100 + 200}ms` }}
             >
               <div className="w-10 h-10 md:w-14 md:h-14 rounded-lg md:rounded-xl bg-gradient-to-br from-[#F97316] to-[#C41E24] flex items-center justify-center mb-2 md:mb-4 group-hover:scale-110 transition-transform duration-300">
                 <feature.icon size={20} className="text-white md:w-7 md:h-7" />
@@ -132,25 +100,21 @@ export default function About() {
 
         {/* Flavor Profiles */}
         <div className="flavor-profiles">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
+          <div className={`text-center mb-12 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <h3 className="text-3xl md:text-4xl font-black uppercase text-white mb-4">
               Four <span className="text-gradient-fire">Flavor</span> Profiles
             </h3>
             <p className="text-gray-400 max-w-2xl mx-auto">
               From classic comfort to fiery Nashville heat - pick your adventure
             </p>
-          </motion.div>
+          </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-6">
             {flavorProfiles.map((flavor, index) => (
               <div
                 key={flavor.name}
-                className="flavor-card group relative bg-[#2D2D2D] rounded-xl md:rounded-2xl p-3 md:p-6 overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-300"
+                className={`flavor-card group relative bg-[#2D2D2D] rounded-xl md:rounded-2xl p-3 md:p-6 overflow-hidden cursor-pointer hover:scale-105 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+                style={{ transitionDelay: `${index * 100 + 400}ms` }}
               >
                 {/* Background glow */}
                 <div
@@ -189,12 +153,7 @@ export default function About() {
         </div>
 
         {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mt-20"
-        >
+        <div className={`text-center mt-20 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <p className="text-2xl md:text-3xl font-bold text-white mb-6">
             Ready to taste the <span className="text-gradient-fire">crunch</span>?
           </p>
@@ -207,7 +166,7 @@ export default function About() {
             <span>Order Now</span>
             <Flame size={18} className="animate-flame" />
           </a>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

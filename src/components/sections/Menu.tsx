@@ -1,14 +1,9 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Flame, Sparkles, ChefHat } from 'lucide-react';
 import { menuData, MenuItem } from '@/data/menu';
 import Image from 'next/image';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const categoryIcons: { [key: string]: string } = {
   'french-fries': '🍟',
@@ -42,29 +37,27 @@ const categoryImages: { [key: string]: string } = {
 
 export default function Menu() {
   const [activeCategory, setActiveCategory] = useState<string>(menuData[0].id);
+  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
 
   const activeMenuItems = menuData.find((cat) => cat.id === activeCategory)?.items || [];
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.menu-header',
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-          },
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
         }
-      );
-    }, sectionRef);
+      },
+      { threshold: 0.1 }
+    );
 
-    return () => ctx.revert();
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   // Scroll active tab into view on mobile
@@ -91,16 +84,11 @@ export default function Menu() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="menu-header text-center mb-8 md:mb-12">
-          <motion.span
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-[#C41E24]/10 text-[#F97316] text-xs md:text-sm font-semibold uppercase tracking-wider mb-3 md:mb-4"
-          >
+        <div className={`menu-header text-center mb-8 md:mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <span className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-[#C41E24]/10 text-[#F97316] text-xs md:text-sm font-semibold uppercase tracking-wider mb-3 md:mb-4">
             <ChefHat size={14} className="md:w-4 md:h-4" />
             Full Menu
-          </motion.span>
+          </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase text-white mb-3 md:mb-4">
             What&apos;s <span className="text-gradient-fire">Cooking</span>
           </h2>
@@ -116,12 +104,11 @@ export default function Menu() {
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}
         >
           {menuData.map((category) => (
-            <motion.button
+            <button
               key={category.id}
               data-category={category.id}
               onClick={() => setActiveCategory(category.id)}
-              whileTap={{ scale: 0.95 }}
-              className={`flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-2 md:py-3 rounded-full whitespace-nowrap font-semibold text-xs md:text-sm transition-all duration-300 snap-center flex-shrink-0 ${
+              className={`flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-2 md:py-3 rounded-full whitespace-nowrap font-semibold text-xs md:text-sm transition-all duration-300 snap-center flex-shrink-0 active:scale-95 ${
                 activeCategory === category.id
                   ? 'bg-gradient-to-r from-[#F97316] to-[#C41E24] text-white shadow-lg'
                   : 'bg-[#2D2D2D] text-gray-300 active:bg-[#3D3D3D]'
@@ -129,33 +116,22 @@ export default function Menu() {
             >
               <span className="text-base md:text-lg">{categoryIcons[category.id]}</span>
               <span>{category.name}</span>
-            </motion.button>
+            </button>
           ))}
         </div>
 
         {/* Menu Items Grid */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeCategory}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4 mb-20 md:mb-0"
-          >
-            {activeMenuItems.map((item, index) => (
-              <MenuItemCard key={item.name} item={item} index={index} categoryImage={categoryImages[activeCategory]} />
-            ))}
-          </motion.div>
-        </AnimatePresence>
+        <div
+          key={activeCategory}
+          className="grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4 mb-20 md:mb-0 animate-fade-in-fast"
+        >
+          {activeMenuItems.map((item, index) => (
+            <MenuItemCard key={item.name} item={item} index={index} categoryImage={categoryImages[activeCategory]} />
+          ))}
+        </div>
 
         {/* Desktop Order CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="hidden md:block text-center mt-12"
-        >
+        <div className={`hidden md:block text-center mt-12 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <a
             href="https://wa.me/919597376713?text=Hi!%20I%20would%20like%20to%20place%20an%20order"
             target="_blank"
@@ -165,7 +141,7 @@ export default function Menu() {
             <span>Order Now</span>
             <Flame size={18} className="animate-flame" />
           </a>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -173,12 +149,9 @@ export default function Menu() {
 
 function MenuItemCard({ item, index, categoryImage }: { item: MenuItem; index: number; categoryImage: string }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.03 }}
-      whileTap={{ scale: 0.98 }}
-      className="group relative bg-[#2D2D2D] rounded-lg md:rounded-xl overflow-hidden active:bg-[#3D3D3D] md:hover:bg-[#3D3D3D] transition-all duration-300 cursor-pointer"
+    <div
+      className="group relative bg-[#2D2D2D] rounded-lg md:rounded-xl overflow-hidden active:bg-[#3D3D3D] md:hover:bg-[#3D3D3D] transition-all duration-300 cursor-pointer active:scale-98"
+      style={{ animationDelay: `${index * 30}ms` }}
     >
       {/* Category Image */}
       <div className="relative h-24 md:h-32 w-full overflow-hidden">
@@ -234,14 +207,9 @@ function MenuItemCard({ item, index, categoryImage }: { item: MenuItem; index: n
       <div className="hidden md:block absolute inset-0 rounded-xl border border-transparent group-hover:border-[#F97316]/30 transition-all duration-300 pointer-events-none" />
 
       {/* Sparkle effect on hover - only on desktop */}
-      <motion.div
-        className="hidden md:block absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-      >
+      <div className="hidden md:block absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity animate-rotate-slow">
         <Sparkles size={14} className="text-[#F97316]" />
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
-
