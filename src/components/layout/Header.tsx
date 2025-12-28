@@ -100,6 +100,8 @@ export default function Header() {
             className="md:hidden text-white p-2 z-50"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             whileTap={{ scale: 0.9 }}
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMobileMenuOpen}
           >
             <AnimatePresence mode="wait">
               {isMobileMenuOpen ? (

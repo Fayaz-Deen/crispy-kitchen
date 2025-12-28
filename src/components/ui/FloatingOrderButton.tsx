@@ -77,6 +77,8 @@ export default function FloatingOrderButton() {
             exit={{ scale: 0, opacity: 0 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsExpanded(!isExpanded)}
+            aria-label={isExpanded ? 'Close order options' : 'Open order options'}
+            aria-expanded={isExpanded}
             className={`w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 ${
               isExpanded
                 ? 'bg-[#2D2D2D] rotate-0'

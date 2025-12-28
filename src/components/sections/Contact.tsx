@@ -191,6 +191,7 @@ export default function Contact() {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="absolute inset-0"
+              title="Crispy Kitchen location on Google Maps"
             />
 
             {/* Map Overlay CTA */}
@@ -203,7 +204,7 @@ export default function Contact() {
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="text-white font-bold">Crispy Kitchen</h4>
+                    <p className="text-white font-bold">Crispy Kitchen</p>
                     <p className="text-gray-400 text-sm">Food Bazaar, Madurai</p>
                   </div>
                   <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#F97316] to-[#C41E24] flex items-center justify-center">

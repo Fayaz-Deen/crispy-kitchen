@@ -24,7 +24,11 @@
       "Bash(nslookup:*)",
       "Bash(git commit:*)",
       "Bash(sips:*)",
-      "Bash(timeout 5 npm run dev:*)"
+      "Bash(timeout 5 npm run dev:*)",
+      "Bash(npx next build:*)",
+      "Bash(gh api:*)",
+      "WebFetch(domain:crispykitchen.in)",
+      "Bash(npx lighthouse:*)"
     ]
   }
 }

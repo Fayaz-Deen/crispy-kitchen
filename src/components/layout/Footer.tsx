@@ -29,6 +29,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-[#2D2D2D] flex items-center justify-center text-white hover:bg-gradient-to-r hover:from-[#F97316] hover:to-[#C41E24] transition-all"
+                aria-label="Follow us on Instagram"
               >
                 <Instagram size={20} />
               </a>
@@ -121,10 +122,10 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-[#2D2D2D] flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-gray-500 text-sm">
+          <p className="text-gray-400 text-sm">
             &copy; {new Date().getFullYear()} Crispy Kitchen. All rights reserved.
           </p>
-          <p className="text-gray-500 text-sm">
+          <p className="text-gray-400 text-sm">
             Made with fire in Madurai
           </p>
         </div>
