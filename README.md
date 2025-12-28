@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Crispy Kitchen
 
-## Getting Started
+A modern, high-performance website for Crispy Kitchen - Madurai's premium fried chicken restaurant.
 
-First, run the development server:
+**Live Site:** [https://crispykitchen.in](https://crispykitchen.in)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Lighthouse Scores
+
+| Category | Score |
+|----------|-------|
+| Performance | 96% |
+| Accessibility | 100% |
+| Best Practices | 100% |
+| SEO | 100% |
+
+## Tech Stack
+
+- **Framework:** Next.js 16.1.1 (App Router)
+- **Styling:** Tailwind CSS 4
+- **Icons:** Lucide React
+- **Animations:** Pure CSS (no external libraries)
+- **Deployment:** Vercel
+
+## Features
+
+- Fully responsive design (mobile-first)
+- Optimized images with Next.js Image component (AVIF/WebP)
+- CSS-only animations for maximum performance
+- WhatsApp ordering integration
+- Google Maps embed for location
+- Instagram social link
+- Franchise enquiry form
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── globals.css      # Global styles and CSS animations
+│   ├── layout.tsx       # Root layout with metadata
+│   └── page.tsx         # Home page
+├── components/
+│   ├── layout/
+│   │   ├── Header.tsx   # Navigation header
+│   │   └── Footer.tsx   # Site footer
+│   ├── sections/
+│   │   ├── Hero.tsx           # Hero section
+│   │   ├── SignatureDishes.tsx # Best sellers
+│   │   ├── Menu.tsx           # Full menu with categories
+│   │   ├── About.tsx          # About & flavor profiles
+│   │   ├── VideoExperience.tsx # Video gallery
+│   │   └── Contact.tsx        # Contact info & map
+│   └── ui/
+│       └── FloatingOrderButton.tsx # Mobile order FAB
+├── data/
+│   └── menu.ts          # Menu data and contact info
+└── public/
+    └── images/          # Optimized images
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Performance Optimizations
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **No animation libraries** - Replaced Framer Motion & GSAP with CSS animations
+- **Lazy loading** - Dynamic imports for below-fold components
+- **Image optimization** - Compressed hero image (722KB → 162KB), AVIF/WebP formats
+- **CSS optimization** - Enabled via Next.js experimental optimizeCss
+- **Preloading** - Hero image preloaded for faster LCP
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Development
 
-## Learn More
+```bash
+# Install dependencies
+npm install
 
-To learn more about Next.js, take a look at the following resources:
+# Run development server
+npm run dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Build for production
+npm run build
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Start production server
+npm start
+```
 
-## Deploy on Vercel
+## Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The site auto-deploys to Vercel on push to main branch.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+# Manual deploy
+npx vercel --prod
+```
+
+## Contact
+
+- **Phone:** +91 9597376713
+- **WhatsApp:** [Order Now](https://wa.me/919597376713)
+- **Instagram:** [@crispykitchen.in](https://instagram.com/crispykitchen.in)
+- **Location:** Food Bazaar, Madurai
